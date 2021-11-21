@@ -41,13 +41,16 @@ static const struct option_map options[] = {
 };
 
 const char *state_get_options(struct mrsh_state *state) {
-	static char opts[sizeof(options) / sizeof(options[0]) + 1];
+	static char opts[sizeof(options) / sizeof(options[0]) + 2];
 	int i = 0;
 	for (size_t j = 0; j < sizeof(options) / sizeof(options[0]); ++j) {
 		if (options[j].short_name != '\0' &&
 				(state->options & options[j].value)) {
 			opts[i++] = options[j].short_name;
 		}
+	}
+	if (state->interactive) {
+	    opts[i++] = 'i';
 	}
 	opts[i] = '\0';
 	return opts;
